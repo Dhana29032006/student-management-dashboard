@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Management Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div>
+            <h1>🎓 Student Management Dashboard</h1>
+            <p>Manage student information easily</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Dashboard Statistics -->
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon">👨‍🎓</div>
+                <div>
+                    <h3 id="totalStudents">0</h3>
+                    <p>Total Students</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">💻</div>
+                <div>
+                    <h3 id="cseStudents">0</h3>
+                    <p>CSE Students</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div>
+                    <h3 id="eceStudents">0</h3>
+                    <p>ECE Students</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div>
+                    <h3 id="eeeStudents">0</h3>
+                    <p>EEE Students</p>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Student Form -->
+        <section class="form-section">
+
+            <div class="section-title">
+                <h2 id="formTitle">Add Student</h2>
+                <p>Enter student details below</p>
+            </div>
+
+            <form id="studentForm">
+
+                <input type="hidden" id="editIndex">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input
+                            type="text"
+                            id="studentId"
+                            placeholder="Example: STU001"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studentName">Student Name</label>
+                        <input
+                            type="text"
+                            id="studentName"
+                            placeholder="Enter student name"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="student@gmail.com"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="department">Department</label>
+
+                        <select id="department" required>
+                            <option value="">Select Department</option>
+                            <option value="CSE">CSE</option>
+                            <option value="ECE">ECE</option>
+                            <option value="EEE">EEE</option>
+                            <option value="MECH">MECH</option>
+                            <option value="CIVIL">CIVIL</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="year">Year</label>
+
+                        <select id="year" required>
+                            <option value="">Select Year</option>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+
+                        <select id="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-buttons">
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        ➕ Add Student
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        id="cancelBtn"
+                        onclick="cancelEdit()"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- Student List -->
+        <section class="table-section">
+
+            <div class="table-header">
+
+                <div>
+                    <h2>Student Records</h2>
+                    <p>View and manage all students</p>
+                </div>
+
+                <div class="controls">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="🔍 Search students..."
+                    >
+
+                    <select id="filterDepartment">
+
+                        <option value="All">All Departments</option>
+                        <option value="CSE">CSE</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+
+                    </select>
+
+                    <select id="filterYear">
+
+                        <option value="All">All Years</option>
+                        <option value="1st Year">1st Year</option>
+                        <option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option>
+                        <option value="4th Year">4th Year</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- Table -->
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Year</th>
+                            <th>Gender</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="studentTableBody">
+                    </tbody>
+
+                </table>
+
+                <div id="emptyMessage" class="empty-message">
+                    <div>📭</div>
+                    <h3>No students found</h3>
+                    <p>Add a student to display the record here.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 Student Management Dashboard |
+            Built using HTML, CSS & JavaScript
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
